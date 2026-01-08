@@ -1,0 +1,10 @@
+numpy 
+pandas
+matplotlib
+seaborn
+spotipy
+scikit-learn
+tqdm
+requests
+joblib
+setuptools
