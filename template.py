@@ -40,24 +40,17 @@ list_of_files = [
     "README.md"
 ]
 
-def create_project_structure():
-    for filepath in list_of_files:
-        filepath = Path(filepath)
-        filedir = filepath.parent
+for filepath in list_of_files:
+    filepath = Path(filepath)
+    filedir, filename = os.path.split(filepath)
 
-        # Create directories if they don't exist
-        if not filedir.exists():
-            os.makedirs(filedir, exist_ok=True)
-            logging.info(f"Created directory: {filedir}")
+    if filedir != "":
+        os.makedirs(filedir, exist_ok=True)
+        logging.info(f"Created directory: {filedir} for the file {filename}")
 
-        # Create empty file if it doesn't exist
-        if not filepath.exists():
-            with open(filepath, "w") as f:
-                pass
-            logging.info(f"Created file: {filepath}")
-        else:
-            logging.info(f"File already exists: {filepath}")
-
-if __name__ == "__main__":
-    create_project_structure()
-    logging.info("✅ Project structure created successfully!")
+    if (not os.path.exists(filepath)) or (os.path.getsize(filepath) == 0):
+        with open(filepath, "w") as f:
+            pass
+        logging.info(f"Created file: {filepath}")
+    else:
+        logging.info(f"File already exists and is not empty: {filepath}")

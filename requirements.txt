@@ -3,8 +3,12 @@ pandas
 matplotlib
 seaborn
 spotipy
+SQLALchemy
 scikit-learn
 tqdm
 requests
 joblib
 setuptools
+python-dotenv
+mysql-connector-python
+pymysql
