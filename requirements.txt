@@ -1,5 +1,5 @@
-numpy 
-pandas
+numpy
+panadas
 matplotlib
 seaborn
 spotipy
@@ -12,3 +12,7 @@ setuptools
 python-dotenv
 mysql-connector-python
 pymysql
+joblib
+xgboost
+catboost
+

@@ -1,0 +1,33 @@
+﻿Song_ID,Song_Name,Artist,Languages,Year,Genre,Languages,Danceability,Tempo,Energy,Popularity
+1,Natarang,Ajay-Atul,Marathi,2010,Folk/Drama,Marathi,0.6,110,0.7,80
+2,Kombdi Palali,Ajay-Atul,Marathi,2006,Folk/Drama,Marathi,0.75,120,0.85,78
+3,Zingaat,Ajay-Atul,Marathi,2016,Dance,Marathi,0.9,130,0.88,95
+4,Mala Jau Dya Na Ghari,Anand Shinde,Marathi,2008,Folk/Drama,Marathi,0.7,100,0.65,82
+5,Hi Chaal Turu Turu,Ashok Patki,Marathi,1990,Pop,Marathi,0.68,95,0.6,75
+6,Man Udhan Varyache,Shankar Mahadevan,Marathi,2009,Pop,Marathi,0.72,102,0.66,85
+7,Tum Hi Ho,Arijit Singh,Hindi,2013,Bollywood,Hindi,0.55,72,0.48,88
+8,Jai Ho,A. R. Rahman,Hindi,2008,World Fusion,Hindi,0.7,100,0.8,92
+9,Kabira,Arijit Singh,Hindi,2013,Bollywood,Hindi,0.6,85,0.55,90
+10,Chaiyya Chaiyya,Sukhwinder Singh,Hindi,1998,Bollywood,Hindi,0.78,104,0.82,93
+11,Kal Ho Naa Ho,Sonu Nigam,Hindi,2003,Bollywood,Hindi,0.5,80,0.52,89
+12,Tera Ban Jaunga,Akhil Sachdeva,Hindi,2019,Bollywood,Hindi,0.58,92,0.6,87
+13,Shape of You,Ed Sheeran,English,2017,Pop,English,0.82,96,0.65,95
+14,Rolling in the Deep,Adele,English,2010,Soul/Pop,English,0.65,105,0.75,93
+15,Smells Like Teen Spirit,Nirvana,English,1991,Rock,English,0.45,117,0.92,90
+16,Despacito,Luis Fonsi,English,2017,Reggaeton,English,0.79,89,0.72,97
+17,Uptown Funk,Bruno Mars,English,2014,Funk/Pop,English,0.89,115,0.8,96
+18,Blinding Lights,The Weeknd,English,2019,Synthpop,English,0.84,171,0.78,98
+19,Perfect,Ed Sheeran,English,2017,Pop,English,0.6,95,0.55,94
+20,Believer,Imagine Dragons,English,2017,Rock/Pop,English,0.7,125,0.85,97
+21,Bekhayali,Arijit Singh,Hindi,2019,Bollywood,Hindi,0.52,90,0.7,91
+22,Tujh Mein Rab Dikhta Hai,Roop Kumar Rathod,Hindi,2008,Bollywood,Hindi,0.56,88,0.6,86
+23,Lag Ja Gale,Lata Mangeshkar,Hindi,1964,Classical,Hindi,0.4,78,0.45,92
+24,Apsara Aali,Ajay-Atul,Marathi,2010,Folk/Dance,Marathi,0.85,120,0.8,88
+25,Ye Dosti,Kishore Kumar,Hindi,1975,Bollywood,Hindi,0.65,100,0.7,90
+26,Bad Guy,Billie Eilish,English,2019,Pop,English,0.85,135,0.6,95
+27,Senorita,Shawn Mendes,English,2019,Pop,English,0.8,117,0.7,94
+28,Kesariya,Arijit Singh,Hindi,2022,Bollywood,Hindi,0.62,92,0.68,96
+29,Ti Saanjh,Kaushal Inamdar,Marathi,2015,Classical,Marathi,0.5,85,0.55,77
+30,Vazandar,Avadhoot Gupte,Marathi,2016,Pop,Marathi,0.68,108,0.72,83
+,,,,,,,,,,
+,,,,,,,,,,

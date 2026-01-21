@@ -1,0 +1,7 @@
+ï»¿Song_ID,Song_Name,Artist,Languages,Year,Genre,Languages_[0],Danceability,Tempo,Energy,Popularity
+28,Kesariya,Arijit Singh,Hindi,2022,Bollywood,Hindi,0.62,92,0.68,96
+16,Despacito,Luis Fonsi,English,2017,Reggaeton,English,0.79,89,0.72,97
+24,Apsara Aali,Ajay-Atul,Marathi,2010,Folk/Dance,Marathi,0.85,120,0.8,88
+18,Blinding Lights,The Weeknd,English,2019,Synthpop,English,0.84,171,0.78,98
+9,Kabira,Arijit Singh,Hindi,2013,Bollywood,Hindi,0.6,85,0.55,90
+10,Chaiyya Chaiyya,Sukhwinder Singh,Hindi,1998,Bollywood,Hindi,0.78,104,0.82,93
