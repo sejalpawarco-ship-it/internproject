@@ -22,7 +22,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
       try:
           #reading code
-          df = read_sql_data()
+          df = pd.read_csv(os.path.join(r"C:\Users\sejal\Desktop\intern project\my folder\logs\notebook\data", 'Spotify_Song.csv'))
           logging.info("Reading completed mysql database")
 
           os.makedirs(os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True)
@@ -34,6 +34,7 @@ class DataIngestion:
 
 
           logging.info("Ingestion of the data is completed")
+          
 
           return(
               self.ingestion_config.train_data_path,

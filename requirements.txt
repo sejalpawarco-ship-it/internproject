@@ -1,11 +1,11 @@
 numpy
-panadas
+pandas
 matplotlib
 seaborn
 spotipy
 SQLALchemy
-scikit-learn
-tqdm
+scikit-learn 
+tqdm 
 requests
 joblib
 setuptools
