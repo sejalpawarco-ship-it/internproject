@@ -15,4 +15,5 @@ pymysql
 joblib
 xgboost
 catboost
+dill
 

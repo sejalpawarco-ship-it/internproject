@@ -13,18 +13,52 @@ from src.spotify_song_explorer.utils import save_object
 
 from src.spotify_song_explorer.exception import CustomException
 from src.spotify_song_explorer.logger import logging
-
 from dataclasses import dataclass
 
 @dataclass
 class DataTransformationConfig:
-    preprocessor_obj_file_path:str=os.path.join("artifacts", "preprocessor.pkl")
+    preprocessor_obj_file_path: str = os.path.join(
+        "artifacts", "preprocessor.pkl"
+    )
 
 class DataTransformation:
-    def initiate_data_transformation(self):
+    def initiate_data_transformation(self, train_path, test_path):
         self.transformation_config=DataTransformationConfig()
         self.label_encoder=LabelEncoder()
         self.scaler=StandardScaler()
+        try:
+            logging.info("Reading training and testing data")
+            train_df=pd.read_csv(train_path)
+            test_df=pd.read_csv(test_path)
+            logging.info("Creating Tempo_bin for classification")
+            
+            train_df=self.create_tempo_bins(train_df)
+            test_df=self.create_tempo_bins(test_df)
+            
+            logging.info("Encoding categorical features")
+            train_df=self.encode_categorical_features(train_df)
+            test_df=self.encode_categorical_features(test_df)
+            
+            logging.info("Preparing features and target for regression")
+            X_train, y_train=self.prepare_features_regression(train_df)
+            X_test, y_test=self.prepare_features_regression(test_df)
+            
+            logging.info("Splitting and scaling data")
+            X_train_scaled, y_train = self.split_and_scale_data(X_train, y_train)
+            X_test_scaled, y_test = self.split_and_scale_data(X_test, y_test)
+
+            logging.info("Scaling train and test data")
+            X_train_scaled = self.scaler.fit_transform(X_train)
+            X_test_scaled = self.scaler.transform(X_test)
+
+            train_arr = np.c_[X_train_scaled, np.array(y_train)]
+            test_arr = np.c_[X_test_scaled, np.array(y_test)]
+
+            logging.info("Data transformation completed")
+            return train_arr, test_arr
+            
+        except Exception as e:
+            raise CustomException(e, sys)
 
     def create_tempo_bins(self, df):
         """Create classification target variable - Tempo_bin"""
@@ -36,6 +70,7 @@ class DataTransformation:
             )
             logging.info("Tempo_bin created successfully")
             return df
+        
         except Exception as e:
             raise CustomException(e, sys)
 
