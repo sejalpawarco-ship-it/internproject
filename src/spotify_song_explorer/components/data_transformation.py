@@ -9,6 +9,7 @@ import numpy as np
 
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
 
 from src.spotify_song_explorer.utils import save_object
 
