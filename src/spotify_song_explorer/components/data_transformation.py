@@ -61,8 +61,14 @@ class DataTransformation:
             train_arr = np.c_[X_train_scaled, np.array(y_train)]
             test_arr = np.c_[X_test_scaled, np.array(y_test)]
 
+            # ✅ preprocessor.pkl सेव्ह करणे
+            save_object(
+                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                obj=self.scaler
+            )
+
             logging.info("Data transformation completed")
-            return train_arr, test_arr
+            return train_arr, test_arr, self.data_transformation_config.preprocessor_obj_file_path
 
         except Exception as e:
             raise CustomException(e, sys)
@@ -152,8 +158,14 @@ class DataTransformation:
 
             X_train, X_test, y_train, y_test = self.split_and_scale_data(X, y)
 
+            # ✅ preprocessor.pkl सेव्ह करणे
+            save_object(
+                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                obj=self.scaler
+            )
+
             logging.info("Classification data transformation completed")
-            return X_train, X_test, y_train, y_test
+            return X_train, X_test, y_train, y_test, self.data_transformation_config.preprocessor_obj_file_path
 
         except Exception as e:
             raise CustomException(e, sys)
@@ -172,8 +184,14 @@ class DataTransformation:
 
             X_train, X_test, y_train, y_test = self.split_and_scale_data(X, y)
 
+            # ✅ preprocessor.pkl सेव्ह करणे
+            save_object(
+                file_path=self.data_transformation_config.preprocessor_obj_file_path,
+                obj=self.scaler
+            )
+
             logging.info("Regression data transformation completed")
-            return X_train, X_test, y_train, y_test
+            return X_train, X_test, y_train, y_test, self.data_transformation_config.preprocessor_obj_file_path
 
         except Exception as e:
             raise CustomException(e, sys)
