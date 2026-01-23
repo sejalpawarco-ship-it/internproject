@@ -11,7 +11,7 @@ from dataclasses import dataclass
 
 @dataclass
 class DataIngestionConfig:
-    train_data_path:str=os.path.join("artifacts", "train.csv")
+    train_data_path:str=os.path.join("artifacts", "train.csv") 
     test_data_path:str=os.path.join("artifacts", "test.csv")
     raw_data_path:str=os.path.join("artifacts", "raw.csv")
 
@@ -36,7 +36,7 @@ class DataIngestion:
           logging.info("Ingestion of the data is completed")
           
 
-          return(
+          return  (
               self.ingestion_config.train_data_path,
               self.ingestion_config.test_data_path
           )
