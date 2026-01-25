@@ -1,16 +1,18 @@
 import sys
 from src.spotify_song_explorer.logger import logging
 
-def error_message_detail(error, error_detail):
-    _, _, exc_tb = error_detail.exc_info()
-    file_name = exc_tb.tb_frame.f_code.co_filename
-    error_message = "Error occured in python script name [{0}] line number [{1}] error message [{2}]".format(
-        file_name, exc_tb.tb_lineno, str(error)
-    )
-    return error_message
+def error_message_detail(error_message, error_details: sys):
+    exc_type, exc_value, exc_tb = error_details.exc_info()
+    if exc_tb is not None:
+        file_name = exc_tb.tb_frame.f_code.co_filename
+        line_number = exc_tb.tb_lineno
+        return f"Error occured in python script name [{file_name}] line number [{line_number}] error message [{error_message}]"
+    else:
+        # Fallback when no traceback available
+        return f"Error message: {error_message}"
 
 class CustomException(Exception):
-    def __init__(self, error_message, error_details:sys):
+    def __init__(self, error_message, error_details: sys):
         super().__init__(error_message)
         self.error_message = error_message_detail(error_message, error_details)
 

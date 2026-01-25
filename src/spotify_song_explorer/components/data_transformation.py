@@ -125,7 +125,7 @@ class DataTransformation:
         except Exception as e:
             raise CustomException(e, sys)
 
-    def initiate_data_transformation(self, train_path: str, test_path: str):
+    def initiate_data_transformation(self, train_path, test_path):
         """
         End-to-end transformation for regression:
         - read train/test CSVs
@@ -173,7 +173,8 @@ class DataTransformation:
             return (
                 train_arr,
                 test_arr,
-                self.data_transformation_config.preprocessor_obj_file_path,
+                self.data_transformation_config.preprocessor_obj_file_path
+                
             )
         except Exception as e:
             raise CustomException(e, sys)

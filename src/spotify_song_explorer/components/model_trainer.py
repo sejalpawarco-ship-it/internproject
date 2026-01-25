@@ -1,14 +1,11 @@
-# src/spotify_song_explorer/components/model_trainer.py
-
 import os
 import sys
 from dataclasses import dataclass
-
 from catboost import CatBoostRegressor
-from sklearn.ensemble import (
+from sklearn.ensemble import(
     RandomForestRegressor,
     GradientBoostingRegressor,
-    AdaBoostRegressor,
+    AdaBoostRegressor
 )
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
@@ -18,104 +15,86 @@ from xgboost import XGBRegressor
 
 from src.spotify_song_explorer.exception import CustomException
 from src.spotify_song_explorer.logger import logging
+
 from src.spotify_song_explorer.utils import save_object, evaluate_models
-
-
 @dataclass
 class ModelTrainerConfig:
     trained_model_file_path: str = os.path.join("artifacts", "spotify_model.pkl")
 
-
 class ModelTrainer:
     def __init__(self):
         self.model_trainer_config = ModelTrainerConfig()
-
-    def initiate_model_trainer(self, train_array, test_array):
+    def initiate_model_trainer(self, train_array, test_array):  
         try:
             logging.info("Splitting training and testing input data")
             X_train, y_train = train_array[:, :-1], train_array[:, -1]
             X_test, y_test = test_array[:, :-1], test_array[:, -1]
 
             models = {
-                "Random Forest": RandomForestRegressor(random_state=42),
-                "Decision Tree": DecisionTreeRegressor(random_state=42),
-                "Gradient Boosting": GradientBoostingRegressor(random_state=42),
+                "Random Forest": RandomForestRegressor(),
+                "Decision Tree": DecisionTreeRegressor(),
+                "Gradient Boosting": GradientBoostingRegressor(),
                 "Linear Regression": LinearRegression(),
                 "K-Neighbors Regressor": KNeighborsRegressor(),
-                "XGB Regressor": XGBRegressor(
-                    random_state=42, objective="reg:squarederror", n_estimators=200
-                ),
-                "CatBoosting Regressor": CatBoostRegressor(
-                    verbose=False, random_state=42
-                ),
-                "AdaBoost Regressor": AdaBoostRegressor(random_state=42),
+                "XGB Regressor": XGBRegressor(),
+                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
+                "AdaBoost Regressor": AdaBoostRegressor()
             }
-
             params = {
-                "Random Forest": {"n_estimators": [64, 128, 256]},
+                "Random Forest": {
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                },
                 "Decision Tree": {
-                    "criterion": [
-                        "squared_error",
-                        "friedman_mse",
-                        "absolute_error",
-                        "poisson",
-                    ]
+                    'criterion': ['squared_error', 'friedman_mse', 'absolute_error', 'poisson']
                 },
                 "Gradient Boosting": {
-                    "learning_rate": [0.1, 0.05, 0.01],
-                    "subsample": [0.7, 0.8, 0.9],
-                    "n_estimators": [64, 128, 256],
+                    'learning_rate': [0.1, 0.01, 0.05, 0.001],
+                    'subsample': [0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
                 },
                 "Linear Regression": {},
-                "K-Neighbors Regressor": {"n_neighbors": [3, 5, 7, 9]},
+                "K-Neighbors Regressor": {
+                    'n_neighbors': [3, 5, 7, 9]
+                },
                 "XGB Regressor": {
-                    "learning_rate": [0.1, 0.05, 0.01],
-                    "n_estimators": [100, 200, 300],
+                    'learning_rate': [0.1, 0.01, 0.05, 0.001],
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
                 },
                 "CatBoosting Regressor": {
-                    "depth": [6, 8, 10],
-                    "learning_rate": [0.1, 0.05, 0.01],
-                    "iterations": [100, 200, 300],
+                    'depth': [6, 8, 10],
+                    'learning_rate': [0.01, 0.05, 0.1],
+                    'iterations': [30, 50, 100]
                 },
-                "AdaBoost Regressor": {"n_estimators": [64, 128, 256]},
+                "AdaBoost Regressor": {
+                    'n_estimators': [8, 16, 32, 64, 128, 256]
+                }
             }
 
-            # Evaluate all models (assumes evaluate_models returns dict of best scores and fits models)
-            model_report: dict = evaluate_models(
-                X_train=X_train,
-                y_train=y_train,
-                X_test=X_test,
-                y_test=y_test,
-                models=models,
-                params=params,
-            )
+            model_report: dict = evaluate_models(X_train, y_train, X_test,y_test,models, params)
+               
+            # To get the best model score from the dictionary
+            best_model_score = max(sorted(model_report.values()))
 
-            # Best model score and name
-            best_model_score = max(model_report.values())
+            best_model_score = max(sorted(model_report.values()))
             best_model_name = list(model_report.keys())[
-                list(model_report.values()).index(best_model_score)
+           list(model_report.values()).index(best_model_score)
             ]
+
             best_model = models[best_model_name]
+            best_model.fit(X_train, y_train)   # ✅ added
 
-            if best_model_score < 0.6:
-                raise CustomException("No best model found")
 
-            logging.info(
-                f"Best model found: {best_model_name} with score {best_model_score}"
-            )
 
-            # Fit best model on full training data before saving/predicting
-            best_model.fit(X_train, y_train)
 
-            # Save best model
+            logging.info(f"Best model: {best_model_name} with score: {best_model_score}")
+            print("Model Report:", model_report)
+            print(f"Best model: {best_model_name}, R2 Score: {best_model_score}")
             save_object(
-                file_path=self.model_trainer_config.trained_model_file_path,
-                obj=best_model,
+            file_path=self.model_trainer_config.trained_model_file_path,
+            obj=best_model
             )
-
             predicted = best_model.predict(X_test)
             r2_square = r2_score(y_test, predicted)
-
             return r2_square
         except Exception as e:
             raise CustomException(e, sys)
