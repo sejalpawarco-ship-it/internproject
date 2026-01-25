@@ -86,9 +86,8 @@ class ModelTrainer:
 
 
 
-            logging.info(f"Best model: {best_model_name} with score: {best_model_score}")
-            print("Model Report:", model_report)
-            print(f"Best model: {best_model_name}, R2 Score: {best_model_score}")
+            
+            
             save_object(
             file_path=self.model_trainer_config.trained_model_file_path,
             obj=best_model
