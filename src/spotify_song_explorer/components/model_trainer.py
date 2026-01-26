@@ -2,7 +2,7 @@ import os
 import sys
 from dataclasses import dataclass
 from catboost import CatBoostRegressor
-from sklearn.ensemble import(
+from sklearn.ensemble import (
     RandomForestRegressor,
     GradientBoostingRegressor,
     AdaBoostRegressor
@@ -15,8 +15,19 @@ from xgboost import XGBRegressor
 
 from src.spotify_song_explorer.exception import CustomException
 from src.spotify_song_explorer.logger import logging
+import mlflow
+import mlflow.sklearn
+
+# 🔗 DagsHub integration
+import dagshub
+dagshub.init(
+    repo_owner='sejalpawarco-ship-it',   # तुझ्या DagsHub repo owner
+    repo_name='internproject',           # तुझ्या DagsHub repo name
+    mlflow=True
+)
 
 from src.spotify_song_explorer.utils import save_object, evaluate_models
+
 @dataclass
 class ModelTrainerConfig:
     trained_model_file_path: str = os.path.join("artifacts", "spotify_model.pkl")
@@ -24,7 +35,8 @@ class ModelTrainerConfig:
 class ModelTrainer:
     def __init__(self):
         self.model_trainer_config = ModelTrainerConfig()
-    def initiate_model_trainer(self, train_array, test_array):  
+
+    def initiate_model_trainer(self, train_array, test_array):
         try:
             logging.info("Splitting training and testing input data")
             X_train, y_train = train_array[:, :-1], train_array[:, -1]
@@ -70,30 +82,41 @@ class ModelTrainer:
                 }
             }
 
-            model_report: dict = evaluate_models(X_train, y_train, X_test,y_test,models, params)
-               
-            # To get the best model score from the dictionary
-            best_model_score = max(sorted(model_report.values()))
+            # Evaluate all models
+            model_report: dict = evaluate_models(X_train, y_train, X_test, y_test, models, params)
 
+            # Best model selection
             best_model_score = max(sorted(model_report.values()))
-            best_model_name = list(model_report.keys())[
-           list(model_report.values()).index(best_model_score)
-            ]
-
+            best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
             best_model = models[best_model_name]
-            best_model.fit(X_train, y_train)   # ✅ added
+            best_model.fit(X_train, y_train)
 
-
-
-
-            
-            
+            # Save best model locally
             save_object(
-            file_path=self.model_trainer_config.trained_model_file_path,
-            obj=best_model
+                file_path=self.model_trainer_config.trained_model_file_path,
+                obj=best_model
             )
+
             predicted = best_model.predict(X_test)
             r2_square = r2_score(y_test, predicted)
+
+            # 🔥 MLflow logging (now connected to DagsHub)
+            mlflow.set_experiment("spotify_song_explorer")
+
+            with mlflow.start_run(run_name=f"{best_model_name}_run"):
+                # Log parameters
+                mlflow.log_param("model_name", best_model_name)
+                mlflow.log_param("train_shape", X_train.shape)
+                mlflow.log_param("test_shape", X_test.shape)
+
+                # Log metrics
+                mlflow.log_metric("best_model_score", best_model_score)
+                mlflow.log_metric("r2_score", r2_square)
+
+                # Save model in MLflow (DagsHub backend)
+                mlflow.sklearn.log_model(best_model, "best_model")
+
             return r2_square
+
         except Exception as e:
             raise CustomException(e, sys)

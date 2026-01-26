@@ -1,0 +1,22 @@
+artifact_path: file:C:/Users/sejal/Desktop/intern project/my folder/mlruns/1/models/m-4b04a60683c44863925510368e906183/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.9
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.8.1
+model_id: m-4b04a60683c44863925510368e906183
+model_size_bytes: 4113
+model_uuid: m-4b04a60683c44863925510368e906183
+prompts: null
+run_id: 2368cf5566c84165a603da90cc57f942
+utc_time_created: '2026-01-26 08:05:41.673302'

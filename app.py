@@ -5,8 +5,10 @@ import sys
 from src.spotify_song_explorer.logger import logging
 from src.spotify_song_explorer.exception import CustomException
 from src.spotify_song_explorer.components.data_ingestion import DataIngestion,DataIngestionConfig
-from src.spotify_song_explorer.components.model_trainer import ModelTrainerConfig, ModelTrainer
+from src.spotify_song_explorer.components.model_trainer import ModelTrainerConfig,ModelTrainer
 from src.spotify_song_explorer.components.data_transformation import DataTransformationConfig,DataTransformation
+import mlflow 
+import mlflow.sklearn   # अगर sklearn models log करने हैं
 
 
 
